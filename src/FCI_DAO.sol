@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
 import "./utils/FCI_RoleManagement.sol";
 import "./utils/FCI_Token.sol";
+import "openzeppelin/contracts/access/Ownable.sol";
 
 pragma solidity ^0.8.13;
 
 contract FCI_DAO {
-    uint256 public number;
-
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
+    enum Roles {
+        MEMBER,
+        ADVISOR,
+        VERIFIER
     }
 
-    function increment() public {
-        number++;
-    }
+    mapping(address => Roles) role;
 }

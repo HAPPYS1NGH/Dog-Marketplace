@@ -1,18 +1,20 @@
 //SPDX-License-Identifier: UNLICENSED
-import "openzeppelin/contracts/utils/Counters.sol";
+import "../lib/openzeppelin-contracts/contracts/utils/Counters.sol";
 import {DogNFT} from "./DogNFT.sol";
 import {Dog} from "./static/Structs.sol";
+
 pragma solidity 0.8.19;
 
 contract Marketplace {
     using Counters for Counters.Counter;
+
     Counters.Counter private _dogIdCounter;
 
-    DogNFT dogNFT ;
+    DogNFT dogNFT;
 
     mapping(uint256 => Dog) dogs;
 
-    constructor(){
+    constructor() {
         dogNFT = new DogNFT();
     }
 
@@ -41,7 +43,7 @@ contract Marketplace {
             availableForAdoption: _availableForAdoption,
             gender: _gender,
             price: _price,
-            verified : false
+            verified: false
         });
     }
 
@@ -81,12 +83,12 @@ contract Marketplace {
         dog.availableForAdoption = false;
     }
 
-    function mintDogNFT(uint _id , string memory _uri) public{
+    function mintDogNFT(uint256 _id, string memory _uri) public {
         require(dogs[_id].verified == true);
-        dogNFT.safeMint(dogs[_id].owner , _id, _uri );
+        dogNFT.safeMint(dogs[_id].owner, _id, _uri);
     }
 
-    function verifyDog(uint _id) public  {
+    function verifyDog(uint256 _id) public {
         dogs[_id].verified = true;
     }
 }

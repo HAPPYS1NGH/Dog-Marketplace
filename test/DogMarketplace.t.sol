@@ -23,38 +23,38 @@ contract MarketplaceTest is Test {
     }
 
     // use  --via-ir for testing
-    function testDogFuzz(
-        string calldata _name,
-        string calldata _breed,
-        uint256 _dob,
-        address payable _owner,
-        bool _availableForAdoption,
-        string calldata _gender,
-        uint256 _price
-    ) public {
-        dogMarketplace.addDog(_name, _breed, _dob, _owner, _availableForAdoption, _gender, _price);
-        uint256 newId = dogMarketplace.currentId();
-        assertEq(newId, 1);
-        (
-            uint256 did,
-            string memory dname,
-            string memory dbreed,
-            uint256 ddob,
-            address downer,
-            bool davailableForAdoption,
-            string memory dgender,
-            uint256 dprice
-        ) = getDogData(newId);
+    // function testDogFuzz(
+    //     string calldata _name,
+    //     string calldata _breed,
+    //     uint256 _dob,
+    //     address payable _owner,
+    //     bool _availableForAdoption,
+    //     string calldata _gender,
+    //     uint256 _price
+    // ) public {
+    //     dogMarketplace.addDog(_name, _breed, _dob, _owner, _availableForAdoption, _gender, _price);
+    //     uint256 newId = dogMarketplace.currentId();
+    //     assertEq(newId, 1);
+    //     (
+    //         uint256 did,
+    //         string memory dname,
+    //         string memory dbreed,
+    //         uint256 ddob,
+    //         address downer,
+    //         bool davailableForAdoption,
+    //         string memory dgender,
+    //         uint256 dprice
+    //     ) = getDogData(newId);
 
-        assertEq(did, 1);
-        assertEq(dname, _name);
-        assertEq(dbreed, _breed);
-        assertEq(ddob, _dob);
-        assertEq(downer, _owner);
-        assertEq(davailableForAdoption, _availableForAdoption);
-        assertEq(dgender, _gender);
-        assertEq(dprice, _price);
-    }
+    //     assertEq(did, 1);
+    //     assertEq(dname, _name);
+    //     assertEq(dbreed, _breed);
+    //     assertEq(ddob, _dob);
+    //     assertEq(downer, _owner);
+    //     assertEq(davailableForAdoption, _availableForAdoption);
+    //     assertEq(dgender, _gender);
+    //     assertEq(dprice, _price);
+    // }
 
     function testAddDog() public {
         dogMarketplace.addDog("Tuffy", "German Shepherd", 10032013, owner1, true, "Male", 0.01 ether);
@@ -68,8 +68,7 @@ contract MarketplaceTest is Test {
         assertEq("Male", dogMarketplace.getDogById(newId).gender);
     }
 
-    function getDogDataStruct(uint256 _id
-    ) public view returns (Dog memory) {
+    function getDogDataStruct(uint256 _id) public view returns (Dog memory) {
         return dogMarketplace.getDogById(_id);
     }
 

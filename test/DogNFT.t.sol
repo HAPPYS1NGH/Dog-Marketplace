@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import "../src/DogNFT.sol";
+import "../src/utils/DogNFT.sol";
 import {Dog} from "../src/static/Structs.sol";
 
 contract NFTTest is Test, DogNFT {

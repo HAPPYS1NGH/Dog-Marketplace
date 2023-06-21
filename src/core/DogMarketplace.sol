@@ -95,7 +95,6 @@ contract DogMarketplace {
         string calldata _breed,
         uint256 _dob,
         address payable _owner,
-        bool _availableForAdoption,
         string calldata _gender,
         uint256 _price,
         string calldata _fatherName,

@@ -20,6 +20,7 @@ contract DogMarketplace {
     error OnlyOwner(address given, address owner);
     error InvalidAddress(address given);
     error NotEnoughFundsSent(uint256 valueSent, uint256 priceOfDog);
+    error UnableToSendFundsToPreviousOwner(address previousOwner, uint256 amount);
 
     ///////////////////////////////
     //// Libraries & Contracts ////
@@ -123,6 +124,10 @@ contract DogMarketplace {
         }
         address payable previousOwner = dog.owner;
         dog.owner = payable(msg.sender);
+        (bool sent,) = previousOwner.call{value: msg.value}("");
+        if (!sent) {
+            revert UnableToSendFundsToPreviousOwner(previousOwner, msg.value);
+        }
         emit DogPurchased(dog.id, dog.name, previousOwner, msg.sender, dog.price);
     }
 

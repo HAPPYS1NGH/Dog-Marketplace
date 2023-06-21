@@ -43,17 +43,7 @@ contract DogMarketplace {
     ///////////////////////////////
 
     event DogRegistered(
-        uint256 id,
-        string name,
-        string breed,
-        uint256 dob,
-        address owner,
-        string gender,
-        uint256 price,
-        string fatherName,
-        string motherName,
-        string colour,
-        string uri
+        uint256 id, string name, address owner, uint256 price, string fatherName, string motherName, string uri
     );
 
     event DogTransfered(uint256 id, string name, address previousOwner, address newOwner);
@@ -92,45 +82,29 @@ contract DogMarketplace {
 
     function addDog(
         string calldata _name,
-        string calldata _breed,
-        uint256 _dob,
-        address payable _owner,
-        string calldata _gender,
         uint256 _price,
         string calldata _fatherName,
         string calldata _motherName,
-        string calldata _colour,
         string calldata _uri
     ) external {
         if (dogs[_name].owner != address(0)) {
             revert DogAlreadyExists();
         }
-        if (_dob > block.timestamp) {
-            revert InvalidDOB(_dob);
-        }
-        if (_price == 0) {
-            revert InvalidPrice(_price);
-        }
+
         _dogIdCounter.increment();
         uint256 newDogId = _dogIdCounter.current();
 
         dogs[_name] = Dog({
             id: newDogId,
             name: _name,
-            breed: _breed,
-            dob: _dob,
-            owner: _owner,
-            gender: _gender,
+            owner: payable(msg.sender),
             price: _price,
             fatherName: _fatherName,
-            motherName: _motherName,
-            colour: _colour
+            motherName: _motherName
         });
         dogNFT.safeMint(msg.sender, _uri);
 
-        emit DogRegistered(
-            newDogId, _name, _breed, _dob, _owner, _gender, _price, _fatherName, _motherName, _colour, _uri
-        );
+        emit DogRegistered(newDogId, _name, msg.sender, _price, _fatherName, _motherName, _uri);
     }
 
     function modifyDogPrice(string calldata _name, uint256 _price) external onlyOwner(dogs[_name].owner) {
